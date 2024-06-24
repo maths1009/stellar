@@ -9,9 +9,16 @@ const commandFiles = readdirSync(__dirname).filter(
   (file) => file.endsWith(".ts") && file !== "index.ts"
 );
 
-for (const file of commandFiles) {
-  const { command } = require(join(__dirname, file));
-  commands.set(command.name, command);
-}
+const commandData: Array<Omit<Command, "execute">> = commandFiles.map(
+  (file) => {
+    const { command } = require(join(__dirname, file)) as { command: Command };
+    commands.set(command.name, command);
+    return {
+      name: command.name,
+      description: command.description,
+      options: command.options || [],
+    };
+  }
+);
 
-export default commands;
+export { commands, commandData };

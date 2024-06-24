@@ -1,14 +1,9 @@
 import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
 import { config } from "./config";
-import commands from "./commands";
+import { commandData } from "./commands";
 
 const rest = new REST({ version: "9" }).setToken(config.token);
-
-const commandData = commands.map((cmd) => ({
-  name: cmd.name,
-  description: cmd.description,
-}));
 
 (async () => {
   try {
