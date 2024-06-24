@@ -1,7 +1,7 @@
-import { Client, GatewayIntentBits, Message } from "discord.js";
+import { Client, GatewayIntentBits } from "discord.js";
 import { config } from "./config";
 import { ready } from "./events/ready";
-import { pingCommand } from "./commands/ping";
+import { interactionCreate } from "./events/interactionCreate";
 
 const client = new Client({
   intents: [
@@ -13,15 +13,6 @@ const client = new Client({
 
 client.once("ready", () => ready(client));
 
-client.on("messageCreate", (message: Message) => {
-  if (!message.content.startsWith(config.prefix) || message.author.bot) return;
-
-  const args = message.content.slice(config.prefix.length).trim().split(/ +/);
-  const command = args.shift()?.toLowerCase();
-
-  if (command === "ping") {
-    pingCommand(message);
-  }
-});
+client.on("interactionCreate", interactionCreate);
 
 client.login(config.token);
