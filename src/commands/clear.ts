@@ -5,6 +5,7 @@ import {
   Snowflake,
   ChannelType,
   PermissionFlagsBits,
+  ApplicationCommandOptionType,
 } from "discord.js";
 
 export const command: Command = {
@@ -13,7 +14,7 @@ export const command: Command = {
   options: [
     {
       name: "amount",
-      type: 4,
+      type: ApplicationCommandOptionType.Integer,
       description: "The number of messages to clear",
       required: false,
     },

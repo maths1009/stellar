@@ -34,6 +34,24 @@ export const interactionCreate = async (interaction: Interaction) => {
     return;
   }
 
+  // Check if the bot has the required permissions to execute the command
+  const botMember = interaction.guild?.members.cache.get(
+    interaction.client.user?.id!
+  );
+
+  const hasBotPermissions =
+    command.botPermissions?.every((permission) =>
+      botMember?.permissions.has(permission)
+    ) || true;
+
+  if (!hasBotPermissions) {
+    await interaction.reply({
+      content: `Je n'ai pas les permissions nécessaires pour exécuter cette commande.`,
+      ephemeral: true,
+    });
+    return;
+  }
+
   try {
     await command.execute(interaction);
   } catch (error) {
